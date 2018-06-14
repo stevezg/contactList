@@ -15,7 +15,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import ContactListScreen from "./screens/ContactListScreen";
 import ContactDetailsScreen from "./screens/ContactDetailsScreen";
 import LoginScreen from "./screens/LoginScreen";
-import contacts from "./contacts";
+import fetchUsers from "./api"
 
 const MainStack = createStackNavigator(
   {
@@ -63,8 +63,19 @@ const AppNavigator = createSwitchNavigator({
 
 export default class App extends React.Component {
   state = {
-    contacts
+    contacts: null
   };
+
+  componentDidMount() {
+    // fetchUsers().then(results => this.setState({ contacts: results }))
+    getUsers()
+  }
+  getUsers = async () => {
+    const results = await fetchUsers()
+    this.setState({ contacts: results })
+
+  }
+
 
   addContact = newContact => {
     this.setState(prevState => ({
