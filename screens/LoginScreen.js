@@ -1,31 +1,58 @@
 import React from "react";
-import { Button, View, StyleSheet, Text } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { Button, View, StyleSheet, Text, TextInput} from "react-native";
+import {connect} from "react-redux"
+import PropTypes from 'prop-types'
+import {loginUser} from "../redux/actions"
 
-export default class LoginScreen extends React.Component {
+import {login} from '../api'
+
+class LoginScreen extends React.Component {
+  static propTypes = {
+    err: PropTypes.string,
+    token: PropTypes.string,
+    loginUser: PropTypes.func,
+  }
   state = {
     username: "",
     password: "",
   }
 
-  handleUsernameUpdate(username) {
-    this.setState({ username })
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.token) this.props.naviagtion.navigate("Main")
   }
-  handlePasswordUpdate(password) {
-    this.setState({ password })
+
+  handleUsernameUpdate = username => {
+    this.setState({username})
   }
-  _login = () => {
-    this.props.navigation.navigate("Main");
-  };
+  handlePasswordUpdate = (password) => {
+    this.setState({password})
+  }
+  _login = async () => {
+    this.props.loginUser(this.state.username, this.state.password)
+  }
+  loginLazy = () => {
+    this.props.navigation.navigate("Main")
+  }
+  
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>You are currently logged out.</Text>
-        <TextInput placeholder="username" value={this.state.username} onChangeText={this.handleUsernameUpdate} />
-        <TextInput placeholder="password" value={this.state.password} onChangeText={this.handlePasswordUpdate} />
+        <Text style={styles.errorText}>{this.props.err}</Text>
+        <TextInput style={styles.input}
+        placeholder="username"
+        value={this.state.username}
+        onChangeText={this.handleUsernameUpdate}
+        autoCapitalize="none"
+         />
+        <TextInput style={styles.input}
+        placeholder="password"
+        value={this.state.password}
+        onChangeText={this.handlePasswordUpdate}
+        secureTextEntry
+        />
 
-        <Button title="Press to Log In" onPress={this._login} />
+        <Button title="Press to Log In" onPress={this.loginLazy} />
       </View>
     );
   }
@@ -36,7 +63,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1
   },
-  text: {
-    textAlign: "center"
+  errorText: {
+    textAlign: "center",
+    color: "red",
+  },
+  input: {
+    borderColor: 'green',
+    borderWidth: 1,
+    minWidth: 100,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 3,
   }
 });
+
+const mapStateToProps = state => ({
+  err: state.user.loginErr,
+  token: state.user.token,
+})
+export default connect(mapStateToProps, {loginUser})(LoginScreen)

@@ -1,12 +1,12 @@
-import React from 'react';
-import { Button, Text, View } from 'react-native';
+import React from 'react'
+import {Button, Text, View} from 'react-native'
 
-export default class ContactDetailsScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: navigation.getParam('name'),
-    };
-  };
+import {connect} from 'react-redux'
+
+class ContactDetailsScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    headerTitle: navigation.getParam('name'),
+  })
 
   render() {
     return (
@@ -14,17 +14,17 @@ export default class ContactDetailsScreen extends React.Component {
         <Text>{this.props.navigation.getParam('phone')}</Text>
         <Button title="Go to random contact" onPress={this.goToRandomContact} />
       </View>
-    );
+    )
   }
 
   goToRandomContact = () => {
-    const { contacts } = this.props.screenProps;
-    const phone = this.props.navigation.getParam('phone');
-    let randomContact;
+    const {contacts} = this.props.screenProps
+    const phone = this.props.navigation.getParam('phone')
+    let randomContact
     while (!randomContact) {
-      const randomIndex = Math.floor(Math.random() * contacts.length);
+      const randomIndex = Math.floor(Math.random() * contacts.length)
       if (contacts[randomIndex].phone !== phone) {
-        randomContact = contacts[randomIndex];
+        randomContact = contacts[randomIndex]
       }
     }
 
@@ -33,6 +33,8 @@ export default class ContactDetailsScreen extends React.Component {
     // });
     this.props.navigation.push('ContactDetails', {
       ...randomContact,
-    });
-  };
+    })
+  }
 }
+
+export default connect()

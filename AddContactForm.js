@@ -9,7 +9,7 @@ export default class AddContactForm extends React.Component {
 		name: '',
     phone: '',
     isFormValid: false,
-	}
+	} 
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.name !== prevState.name ||
 			this.state.phone !== prevState.phone
@@ -20,11 +20,8 @@ export default class AddContactForm extends React.Component {
 	validateForm = () => {
 		console.log(this.state)
 		const names = this.state.name.split(' ')
-		if (+this.state.phone >= 0 &&
-      this.state.phone.length === 10 &&
-      names.length >= 2 &&
-      names[0] &&
-      names[1]){
+    if (+this.state.phone >= 0 && this.state.phone.length === 10 && names.length >= 2 && names[0])
+    {
 			this.setState({isFormValid: true})
 		} else {
 			this.setState({isFormValid: false})
