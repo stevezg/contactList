@@ -1,7 +1,3 @@
 # contactList
-📲 simple mobile App written in React Native 
 
-
-Looks like this
-
-![](/assets/ScreenShot.png?raw=true "")
+📲 simple mobile App recreating a contactList on your phone written in React Native implementing Redux

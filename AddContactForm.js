@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 			backgroundColor: '#fff',
 		},
 		input: {
-			borderColor: 'blue',
+			borderColor: 'pink',
 			borderWidth: 1,
 			minWidth: 100,
 			marginTop: 20,
